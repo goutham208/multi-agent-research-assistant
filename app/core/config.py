@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     # ==========================
     # LLM Provider
     # ==========================
-    LLM_PROVIDER: str = "gemini"
+    LLM_PROVIDER: str = "openai"
 
     # ==========================
     # OpenAI
