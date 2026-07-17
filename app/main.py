@@ -11,12 +11,11 @@ configure_logging()
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
+    description="Production-grade Multi-Agent Research Assistant built with FastAPI, LangGraph, OpenAI and Tavily Search.",
 )
 
-# Register API routes
 app.include_router(research_router)
 
-# Mount static files (CSS, JS, images)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
@@ -28,3 +27,24 @@ async def home(request: Request):
         request=request,
         name="index.html",
     )
+
+
+@app.get("/health", tags=["System"])
+async def health():
+    """
+    Health check endpoint.
+    """
+    return {
+        "status": "healthy",
+    }
+
+
+@app.get("/version", tags=["System"])
+async def version():
+    """
+    Version endpoint.
+    """
+    return {
+        "application": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+    }
